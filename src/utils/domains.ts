@@ -1,0 +1,1 @@
+export const customDomain = "hehe.evmindex.dev"
