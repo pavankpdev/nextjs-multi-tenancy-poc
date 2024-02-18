@@ -10,11 +10,13 @@ export function middleware(request: NextRequest) {
     if(host === customDomain) {
         return next()
     }
+    // This approach avoids constructing a new URL from a base URL string
+    const url = request.nextUrl.clone(); // Clone the current URL to modify
+    url.host = customDomain; // Change the host to the custom domain
+    // Optional: Redirect to HTTPS by setting the protocol
+    url.protocol = 'https';
 
-    const requestedPath = request.nextUrl.pathname + request.nextUrl.search;
-    const redirectUrl = new URL(requestedPath, customDomain);
-
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(url);
 }
 
 // See "Matching Paths" below to learn more
